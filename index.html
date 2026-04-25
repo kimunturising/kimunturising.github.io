@@ -948,25 +948,7 @@
     margin-bottom: 1.8rem; line-height: 1.5;
   }
 
-  /* Amount selector */
-  .amount-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 0.6rem; margin-bottom: 1rem;
-  }
-  .amount-btn {
-    padding: 0.7rem 0.5rem; border-radius: 10px;
-    border: 2px solid var(--sky-dark);
-    background: var(--white); color: var(--navy);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem; font-weight: 700;
-    cursor: pointer; transition: all 0.2s; text-align: center;
-  }
-  .amount-btn:hover { border-color: var(--orange); color: var(--orange); }
-  .amount-btn.selected {
-    background: linear-gradient(135deg, var(--amber), var(--orange));
-    border-color: transparent; color: var(--white);
-  }
-  .amount-sub { font-size: 0.68rem; font-weight: 400; display: block; opacity: 0.85; margin-top: 2px; }
+
 
   .custom-amount-wrap {
     position: relative; margin-bottom: 1.2rem;
@@ -1551,7 +1533,7 @@
 
 
 <!-- DONATION SECTION -->
-<section class="donation-section reveal" id="donate">
+<section class="donation-section" id="donate">
   <div class="section-label">Support the Mission</div>
   <h2 class="section-title">Give the Gift of a New Beginning</h2>
   <p class="section-sub">Every contribution — however small — is an act of love that changes a real family's life in Rwanda.</p>
@@ -1600,7 +1582,7 @@
     <!-- Right: Donation form -->
     <div class="donation-form-wrap">
       <div class="donation-form-title">Make a Donation</div>
-      <div class="donation-form-sub">Fill in your details below and we will reach out to confirm how your gift will be received and used.</div>
+      <div class="donation-form-sub">Give freely, from the heart — any amount is welcome and deeply appreciated. We will contact you to confirm how your gift will be received.</div>
 
       <form id="donationForm" onsubmit="handleDonation(event)">
         <input type="hidden" name="access_key" value="56ae00f6-96f0-4507-8ce6-670056e2c0c8">
@@ -1614,34 +1596,19 @@
           <button type="button" class="freq-btn" onclick="setFrequency(this, 'Monthly')">Monthly</button>
         </div>
 
-        <!-- Amount selector -->
-        <div class="amount-grid">
-          <button type="button" class="amount-btn" onclick="selectAmount(this, '10')">
-            $10 <span class="amount-sub">Health cover</span>
-          </button>
-          <button type="button" class="amount-btn" onclick="selectAmount(this, '25')">
-            $25 <span class="amount-sub">Family support</span>
-          </button>
-          <button type="button" class="amount-btn" onclick="selectAmount(this, '50')">
-            $50 <span class="amount-sub">Business start</span>
-          </button>
-          <button type="button" class="amount-btn" onclick="selectAmount(this, '100')">
-            $100 <span class="amount-sub">Full pilot step</span>
-          </button>
-          <button type="button" class="amount-btn" onclick="selectAmount(this, '250')">
-            $250 <span class="amount-sub">Transform a family</span>
-          </button>
-          <button type="button" class="amount-btn" onclick="selectAmount(this, 'custom')">
-            Other <span class="amount-sub">Your choice</span>
-          </button>
-        </div>
-
-        <!-- Custom amount -->
-        <div class="custom-amount-wrap" id="customWrap" style="display:none;">
-          <span class="currency">$</span>
-          <input type="number" class="custom-amount-input" id="customAmount"
-                 placeholder="Enter your amount" min="1"
-                 oninput="document.getElementById('donation_amount_hidden').value='$'+this.value">
+        <!-- Free amount — no pressure, every gift counts -->
+        <div class="form-group">
+          <label for="donation_amount_field">Your Donation Amount</label>
+          <div class="custom-amount-wrap">
+            <span class="currency">$</span>
+            <input type="number" class="custom-amount-input" id="donation_amount_field"
+                   name="donation_amount" placeholder="Any amount — every gift counts"
+                   min="1" step="any" required
+                   oninput="document.getElementById('donation_amount_hidden').value='$'+this.value">
+          </div>
+          <p style="font-size:0.75rem;color:var(--text-mid);margin-top:0.4rem;line-height:1.5;">
+            Give what your heart leads you to — $1 or $1,000, every contribution is a blessing and will be used with care.
+          </p>
         </div>
 
         <div class="donation-divider"></div>
@@ -1671,7 +1638,7 @@
         </div>
 
         <button type="submit" class="btn-donate">
-          Send Donation Intent &rarr;
+          Submit My Donation &rarr;
         </button>
 
         <div class="donation-secure">
@@ -1691,7 +1658,7 @@
 </section>
 
 <!-- CONTACT FORM -->
-<section class="contact-section reveal" id="contact">
+<section class="contact-section" id="contact">
   <div class="section-label">Get Involved</div>
   <h2 class="section-title">Let's Build Together</h2>
   <div class="contact-grid">
@@ -1828,12 +1795,20 @@
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
         revealObserver.unobserve(e.target);
       }
     });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => revealObserver.observe(el));
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => {
+    // If already in viewport on load, show immediately
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      el.classList.add('visible');
+    } else {
+      revealObserver.observe(el);
+    }
+  });
 
   // ── Animated counters (hero stats + stats bar) ──
   function animateCounter(el) {
@@ -1921,6 +1896,11 @@
     }
   }
 
+  // ── Fallback: ensure all reveals are visible after 3s ──
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  }, 3000);
+
   // ── Smooth scroll for all anchor links ──
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
@@ -1933,20 +1913,6 @@
   });
 
   // ── Donation form ──
-  function selectAmount(btn, value) {
-    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-    const customWrap = document.getElementById('customWrap');
-    const hiddenField = document.getElementById('donation_amount_hidden');
-    if (value === 'custom') {
-      customWrap.style.display = 'block';
-      hiddenField.value = '';
-    } else {
-      customWrap.style.display = 'none';
-      hiddenField.value = '$' + value;
-    }
-  }
-
   function setFrequency(btn, value) {
     document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -1959,13 +1925,6 @@
     const success = document.getElementById('donationSuccess');
     const btn = form.querySelector('.btn-donate');
     const email = document.getElementById('d_email').value;
-
-    // Validate amount selected
-    const amount = document.getElementById('donation_amount_hidden').value;
-    if (!amount) {
-      alert('Please select or enter a donation amount.');
-      return;
-    }
 
     btn.textContent = 'Sending...';
     btn.disabled = true;

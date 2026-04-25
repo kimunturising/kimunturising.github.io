@@ -1025,6 +1025,127 @@
     .amount-grid { grid-template-columns: repeat(3, 1fr); }
   }
 
+
+  /* ══ IMPACT DASHBOARD ══ */
+  .impact-dashboard {
+    background: var(--white);
+    border-bottom: 1px solid var(--sky-dark);
+  }
+
+  /* Ribbon */
+  .dashboard-ribbon {
+    background: linear-gradient(90deg, var(--navy-dark), var(--navy));
+    padding: 0.55rem 5vw;
+  }
+  .ribbon-inner {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--amber);
+    max-width: 1200px; margin: 0 auto;
+  }
+  .ribbon-inner svg { flex-shrink: 0; }
+
+  /* Cards grid */
+  .dashboard-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    max-width: 1200px; margin: 0 auto;
+    padding: 0 5vw;
+  }
+
+  .dash-card {
+    padding: 2rem 1.5rem;
+    border-right: 1px solid var(--sky-dark);
+    position: relative; transition: background 0.3s;
+  }
+  .dash-card:last-child { border-right: none; }
+  .dash-card:hover { background: var(--sky); }
+
+  /* Accent top border on hover */
+  .dash-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--amber), var(--orange));
+    transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+  }
+  .dash-card:hover::before { transform: scaleX(1); }
+
+  /* Primary card — slightly highlighted */
+  .dash-primary { background: var(--sky); }
+  .dash-primary::before { transform: scaleX(1); }
+
+  .dash-icon-wrap {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--amber), var(--orange));
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white); margin-bottom: 1rem;
+    box-shadow: 0 4px 14px rgba(232,82,10,0.25);
+  }
+
+  .dash-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem; font-weight: 900; color: var(--navy-dark);
+    line-height: 1; margin-bottom: 0.4rem;
+    display: flex; align-items: baseline; gap: 3px;
+  }
+
+  .dash-label {
+    font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--navy); margin-bottom: 0.35rem;
+  }
+
+  .dash-sub {
+    font-size: 0.78rem; color: var(--text-mid);
+    line-height: 1.5; margin-bottom: 1rem;
+  }
+
+  /* Progress bar */
+  .dash-bar-wrap {
+    height: 5px; background: var(--sky-dark);
+    border-radius: 10px; overflow: hidden; margin-bottom: 0.4rem;
+  }
+  .dash-bar {
+    height: 100%; width: var(--pct);
+    background: linear-gradient(90deg, var(--amber), var(--orange));
+    border-radius: 10px;
+    transition: width 1.5s ease;
+  }
+  .dash-bar-note {
+    font-size: 0.68rem; color: var(--text-mid);
+    letter-spacing: 0.04em;
+  }
+
+  /* Footer transparency strip */
+  .dashboard-footer {
+    background: var(--sky);
+    border-top: 1px solid var(--sky-dark);
+    padding: 1rem 5vw;
+    display: flex; align-items: center; justify-content: center;
+    gap: 1.5rem; flex-wrap: wrap;
+    max-width: 100%;
+  }
+  .dash-footer-item {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.78rem; color: var(--navy); font-weight: 500;
+  }
+  .dash-footer-item svg { color: var(--orange); flex-shrink: 0; }
+  .dash-footer-divider {
+    width: 1px; height: 20px; background: var(--sky-dark);
+  }
+
+  @media (max-width: 900px) {
+    .dashboard-grid { grid-template-columns: 1fr 1fr; }
+    .dash-card:nth-child(2) { border-right: none; }
+    .dash-card { border-bottom: 1px solid var(--sky-dark); }
+    .dash-card:nth-child(3),
+    .dash-card:nth-child(4) { border-bottom: none; }
+    .dash-footer-divider { display: none; }
+    .dashboard-footer { gap: 1rem; }
+  }
+  @media (max-width: 480px) {
+    .dashboard-grid { grid-template-columns: 1fr 1fr; }
+    .dash-number { font-size: 2rem; }
+    .dash-card { padding: 1.5rem 1rem; }
+  }
+
 </style>
 </head>
 <body>
@@ -1113,57 +1234,97 @@
 </section>
 
 <!-- IMPACT STATS BAR -->
-<div class="stats-bar">
-  <div class="stats-bar-inner">
 
-    <div class="stats-bar-item">
-      <div class="stats-bar-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+<!-- ═══ LIVE IMPACT DASHBOARD ═══ -->
+<div class="impact-dashboard">
+
+  <!-- Top ribbon: "as of" timestamp feel -->
+  <div class="dashboard-ribbon">
+    <div class="ribbon-inner">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Live Impact Snapshot &nbsp;·&nbsp; Kimuntu Rising &nbsp;·&nbsp; Kigali, Rwanda &nbsp;·&nbsp; Est. 2026
+    </div>
+  </div>
+
+  <!-- Main stat cards -->
+  <div class="dashboard-grid">
+
+    <div class="dash-card dash-primary">
+      <div class="dash-icon-wrap">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
       </div>
-      <div class="stats-bar-number">
-        <span class="counter-anim" data-target="3">0</span>
-      </div>
-      <div class="stats-bar-label">Families in Pilot Phase</div>
-      <div class="stats-bar-sub">Vulnerable families receiving direct support</div>
+      <div class="dash-number"><span class="counter-anim" data-target="3">0</span></div>
+      <div class="dash-label">Families Supported</div>
+      <div class="dash-sub">Vulnerable families receiving direct, hands-on support</div>
+      <div class="dash-bar-wrap"><div class="dash-bar" style="--pct:30%"></div></div>
+      <div class="dash-bar-note">Pilot phase · Target: 10 families</div>
     </div>
 
-    <div class="stats-bar-item">
-      <div class="stats-bar-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    <div class="dash-card">
+      <div class="dash-icon-wrap">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
       </div>
-      <div class="stats-bar-number">
-        <span class="counter-anim" data-target="3">0</span>
-      </div>
-      <div class="stats-bar-label">Mutuelle de Santé Covered</div>
-      <div class="stats-bar-sub">Health insurance secured for pilot families</div>
+      <div class="dash-number"><span class="counter-anim" data-target="3">0</span></div>
+      <div class="dash-label">Health Policies Active</div>
+      <div class="dash-sub">Mutuelle de Santé covering all pilot families</div>
+      <div class="dash-bar-wrap"><div class="dash-bar" style="--pct:100%"></div></div>
+      <div class="dash-bar-note">100% of current families covered</div>
     </div>
 
-    <div class="stats-bar-item">
-      <div class="stats-bar-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    <div class="dash-card">
+      <div class="dash-icon-wrap">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
       </div>
-      <div class="stats-bar-number">
-        <span class="counter-anim" data-target="1">0</span>
-      </div>
-      <div class="stats-bar-label">Business Launched</div>
-      <div class="stats-bar-sub">Woman entrepreneur funded with startup capital</div>
+      <div class="dash-number"><span class="counter-anim" data-target="1">0</span></div>
+      <div class="dash-label">Business Launched</div>
+      <div class="dash-sub">Street vendor transitioning to a formal small business</div>
+      <div class="dash-bar-wrap"><div class="dash-bar" style="--pct:10%"></div></div>
+      <div class="dash-bar-note">Growing · Target: 10 businesses</div>
     </div>
 
-    <div class="stats-bar-item">
-      <div class="stats-bar-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <div class="dash-card">
+      <div class="dash-icon-wrap">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
       </div>
-      <div class="stats-bar-number">
-        <span class="counter-anim" data-target="2026">0</span>
+      <div class="dash-number">
+        <span style="font-size:1.6rem;color:var(--orange);">RWF</span>
+        <span class="counter-anim" data-target="500">0</span>
+        <span style="font-size:1.6rem;color:var(--orange);">K</span>
       </div>
-      <div class="stats-bar-label">Year Founded</div>
-      <div class="stats-bar-sub">Growing step by step, impact by impact</div>
+      <div class="dash-label">Funds Deployed</div>
+      <div class="dash-sub">Invested directly into pilot families — zero overhead</div>
+      <div class="dash-bar-wrap"><div class="dash-bar" style="--pct:25%"></div></div>
+      <div class="dash-bar-note">Pilot phase · 100% goes to beneficiaries</div>
     </div>
 
   </div>
+
+  <!-- Bottom: transparency note like top NGOs -->
+  <div class="dashboard-footer">
+    <div class="dash-footer-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span><strong>100%</strong> of donations go directly to beneficiaries</span>
+    </div>
+    <div class="dash-footer-divider"></div>
+    <div class="dash-footer-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      <span>Full transparency · Every franc accounted for</span>
+    </div>
+    <div class="dash-footer-divider"></div>
+    <div class="dash-footer-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      <span>Stats updated as the mission grows</span>
+    </div>
+    <div class="dash-footer-divider"></div>
+    <div class="dash-footer-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      <span>Rooted in faith · Driven by love</span>
+    </div>
+  </div>
+
 </div>
 
-<!-- PROBLEM -->
+<!-- PROBLEM --><!-- PROBLEM -->
 <section class="problem-section reveal" id="problem">
   <div class="section-label">The Challenge</div>
   <div class="problem-grid">
@@ -1470,7 +1631,7 @@
   <div class="pilot-inner" style="grid-template-columns:1fr;">
     <div>
       <div class="section-label" style="color:var(--amber-light);">Program Overview</div>
-      <h3 class="section-title" style="color:var(--sky);font-size:1.8rem;">10 Beneficiaries<br>6 Months</h3>
+      <h3 class="section-title" style="color:var(--sky);font-size:1.8rem;">3 Families.<br>Growing With Faith.</h3>
       <p>A tight, measurable pilot that proves the transformation model works — generating the evidence base needed for full-scale funding and replication.</p>
       <div class="pilot-phases">
         <div class="phase-item">

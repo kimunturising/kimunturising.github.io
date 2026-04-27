@@ -1052,23 +1052,46 @@
 
 
 
-  .custom-amount-wrap {
-    position: relative; margin-bottom: 1.2rem;
+  /* Country + Currency row */
+  .country-currency-row {
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 0.7rem; margin-bottom: 1.2rem; align-items: end;
   }
-  .custom-amount-wrap .currency {
-    position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
-    font-weight: 700; color: var(--navy); font-size: 0.95rem;
+  .currency-badge {
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    color: var(--white); border-radius: 10px;
+    padding: 0 1.1rem; height: 46px;
+    font-weight: 800; font-size: 0.95rem; letter-spacing: 0.04em;
+    white-space: nowrap; min-width: 72px;
+    box-shadow: 0 2px 8px rgba(15,35,71,0.18);
+    transition: all 0.3s;
   }
-  .custom-amount-input {
-    width: 100%; padding: 0.8rem 1rem 0.8rem 2.2rem;
-    border: 2px solid var(--sky-dark); border-radius: 10px;
-    font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
-    color: var(--text-dark); outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+  /* Amount preset grid */
+  .amount-preset-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0.55rem; margin-bottom: 0.4rem;
   }
-  .custom-amount-input:focus {
-    border-color: var(--orange);
-    box-shadow: 0 0 0 3px rgba(232,82,10,0.12);
+  .amount-btn {
+    padding: 0.7rem 0.4rem; border: 2px solid var(--sky-dark);
+    border-radius: 10px; background: var(--white);
+    font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    font-weight: 700; color: var(--navy); cursor: pointer;
+    transition: all 0.18s; text-align: center; line-height: 1.2;
+  }
+  .amount-btn:hover { border-color: var(--orange); color: var(--orange); }
+  .amount-btn.selected {
+    background: linear-gradient(135deg, var(--amber), var(--orange));
+    border-color: transparent; color: var(--white);
+    box-shadow: 0 4px 14px rgba(232,82,10,0.3);
+  }
+  .amount-btn .btn-sub {
+    display: block; font-size: 0.68rem; font-weight: 400;
+    opacity: 0.8; margin-top: 0.15rem;
+  }
+  .amount-note {
+    font-size: 0.74rem; color: var(--text-mid);
+    text-align: center; margin-top: 0.5rem; line-height: 1.5;
   }
 
   /* Frequency toggle */
@@ -2036,19 +2059,227 @@
           <button type="button" class="freq-btn" onclick="setFrequency(this, 'Monthly')">Monthly</button>
         </div>
 
-        <!-- Free amount — no pressure, every gift counts -->
+        <!-- Country + Currency -->
         <div class="form-group">
-          <label for="donation_amount_field">Your Donation Amount</label>
-          <div class="custom-amount-wrap">
-            <span class="currency">$</span>
-            <input type="number" class="custom-amount-input" id="donation_amount_field"
-                   name="donation_amount" placeholder="Any amount — every gift counts"
-                   min="1" step="any" required
-                   oninput="document.getElementById('donation_amount_hidden').value='$'+this.value">
+          <label for="d_country_select">Your Country <span style="font-size:0.75rem;color:var(--text-mid);font-weight:400;">(sets your currency)</span></label>
+          <div class="country-currency-row">
+            <select id="d_country_select" name="country" required onchange="onCountryChange(this)"
+              style="width:100%;padding:0.7rem 1rem;border:2px solid var(--sky-dark);border-radius:10px;
+                     font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--text-dark);
+                     background:var(--white);outline:none;appearance:auto;cursor:pointer;">
+              <option value="" disabled selected>— Select your country —</option>
+              <option value="Afghanistan|AFN|؋">Afghanistan</option>
+              <option value="Albania|ALL|L">Albania</option>
+              <option value="Algeria|DZD|د.ج">Algeria</option>
+              <option value="Andorra|EUR|€">Andorra</option>
+              <option value="Angola|AOA|Kz">Angola</option>
+              <option value="Antigua and Barbuda|XCD|EC$">Antigua and Barbuda</option>
+              <option value="Argentina|ARS|$">Argentina</option>
+              <option value="Armenia|AMD|֏">Armenia</option>
+              <option value="Australia|AUD|A$">Australia</option>
+              <option value="Austria|EUR|€">Austria</option>
+              <option value="Azerbaijan|AZN|₼">Azerbaijan</option>
+              <option value="Bahamas|BSD|B$">Bahamas</option>
+              <option value="Bahrain|BHD|BD">Bahrain</option>
+              <option value="Bangladesh|BDT|৳">Bangladesh</option>
+              <option value="Barbados|BBD|Bds$">Barbados</option>
+              <option value="Belarus|BYN|Br">Belarus</option>
+              <option value="Belgium|EUR|€">Belgium</option>
+              <option value="Belize|BZD|BZ$">Belize</option>
+              <option value="Benin|XOF|CFA">Benin</option>
+              <option value="Bhutan|BTN|Nu">Bhutan</option>
+              <option value="Bolivia|BOB|Bs">Bolivia</option>
+              <option value="Bosnia and Herzegovina|BAM|KM">Bosnia and Herzegovina</option>
+              <option value="Botswana|BWP|P">Botswana</option>
+              <option value="Brazil|BRL|R$">Brazil</option>
+              <option value="Brunei|BND|B$">Brunei</option>
+              <option value="Bulgaria|BGN|лв">Bulgaria</option>
+              <option value="Burkina Faso|XOF|CFA">Burkina Faso</option>
+              <option value="Burundi|BIF|Fr">Burundi</option>
+              <option value="Cabo Verde|CVE|$">Cabo Verde</option>
+              <option value="Cambodia|KHR|៛">Cambodia</option>
+              <option value="Cameroon|XAF|CFA">Cameroon</option>
+              <option value="Canada|CAD|CA$">Canada</option>
+              <option value="Central African Republic|XAF|CFA">Central African Republic</option>
+              <option value="Chad|XAF|CFA">Chad</option>
+              <option value="Chile|CLP|$">Chile</option>
+              <option value="China|CNY|¥">China</option>
+              <option value="Colombia|COP|$">Colombia</option>
+              <option value="Comoros|KMF|Fr">Comoros</option>
+              <option value="Congo (Brazzaville)|XAF|CFA">Congo (Brazzaville)</option>
+              <option value="Congo (DRC)|CDF|Fr">Congo (DRC)</option>
+              <option value="Costa Rica|CRC|₡">Costa Rica</option>
+              <option value="Croatia|EUR|€">Croatia</option>
+              <option value="Cuba|CUP|$">Cuba</option>
+              <option value="Cyprus|EUR|€">Cyprus</option>
+              <option value="Czech Republic|CZK|Kč">Czech Republic</option>
+              <option value="Denmark|DKK|kr">Denmark</option>
+              <option value="Djibouti|DJF|Fr">Djibouti</option>
+              <option value="Dominica|XCD|EC$">Dominica</option>
+              <option value="Dominican Republic|DOP|RD$">Dominican Republic</option>
+              <option value="Ecuador|USD|$">Ecuador</option>
+              <option value="Egypt|EGP|£">Egypt</option>
+              <option value="El Salvador|USD|$">El Salvador</option>
+              <option value="Equatorial Guinea|XAF|CFA">Equatorial Guinea</option>
+              <option value="Eritrea|ERN|Nfk">Eritrea</option>
+              <option value="Estonia|EUR|€">Estonia</option>
+              <option value="Eswatini|SZL|L">Eswatini</option>
+              <option value="Ethiopia|ETB|Br">Ethiopia</option>
+              <option value="Fiji|FJD|FJ$">Fiji</option>
+              <option value="Finland|EUR|€">Finland</option>
+              <option value="France|EUR|€">France</option>
+              <option value="Gabon|XAF|CFA">Gabon</option>
+              <option value="Gambia|GMD|D">Gambia</option>
+              <option value="Georgia|GEL|₾">Georgia</option>
+              <option value="Germany|EUR|€">Germany</option>
+              <option value="Ghana|GHS|₵">Ghana</option>
+              <option value="Greece|EUR|€">Greece</option>
+              <option value="Grenada|XCD|EC$">Grenada</option>
+              <option value="Guatemala|GTQ|Q">Guatemala</option>
+              <option value="Guinea|GNF|Fr">Guinea</option>
+              <option value="Guinea-Bissau|XOF|CFA">Guinea-Bissau</option>
+              <option value="Guyana|GYD|G$">Guyana</option>
+              <option value="Haiti|HTG|G">Haiti</option>
+              <option value="Honduras|HNL|L">Honduras</option>
+              <option value="Hungary|HUF|Ft">Hungary</option>
+              <option value="Iceland|ISK|kr">Iceland</option>
+              <option value="India|INR|₹">India</option>
+              <option value="Indonesia|IDR|Rp">Indonesia</option>
+              <option value="Iran|IRR|﷼">Iran</option>
+              <option value="Iraq|IQD|ع.د">Iraq</option>
+              <option value="Ireland|EUR|€">Ireland</option>
+              <option value="Israel|ILS|₪">Israel</option>
+              <option value="Italy|EUR|€">Italy</option>
+              <option value="Ivory Coast|XOF|CFA">Ivory Coast</option>
+              <option value="Jamaica|JMD|J$">Jamaica</option>
+              <option value="Japan|JPY|¥">Japan</option>
+              <option value="Jordan|JOD|JD">Jordan</option>
+              <option value="Kazakhstan|KZT|₸">Kazakhstan</option>
+              <option value="Kenya|KES|KSh">Kenya</option>
+              <option value="Kiribati|AUD|A$">Kiribati</option>
+              <option value="Kuwait|KWD|KD">Kuwait</option>
+              <option value="Kyrgyzstan|KGS|с">Kyrgyzstan</option>
+              <option value="Laos|LAK|₭">Laos</option>
+              <option value="Latvia|EUR|€">Latvia</option>
+              <option value="Lebanon|LBP|£">Lebanon</option>
+              <option value="Lesotho|LSL|L">Lesotho</option>
+              <option value="Liberia|LRD|L$">Liberia</option>
+              <option value="Libya|LYD|LD">Libya</option>
+              <option value="Liechtenstein|CHF|Fr">Liechtenstein</option>
+              <option value="Lithuania|EUR|€">Lithuania</option>
+              <option value="Luxembourg|EUR|€">Luxembourg</option>
+              <option value="Madagascar|MGA|Ar">Madagascar</option>
+              <option value="Malawi|MWK|MK">Malawi</option>
+              <option value="Malaysia|MYR|RM">Malaysia</option>
+              <option value="Maldives|MVR|Rf">Maldives</option>
+              <option value="Mali|XOF|CFA">Mali</option>
+              <option value="Malta|EUR|€">Malta</option>
+              <option value="Marshall Islands|USD|$">Marshall Islands</option>
+              <option value="Mauritania|MRU|UM">Mauritania</option>
+              <option value="Mauritius|MUR|Rs">Mauritius</option>
+              <option value="Mexico|MXN|$">Mexico</option>
+              <option value="Micronesia|USD|$">Micronesia</option>
+              <option value="Moldova|MDL|L">Moldova</option>
+              <option value="Monaco|EUR|€">Monaco</option>
+              <option value="Mongolia|MNT|₮">Mongolia</option>
+              <option value="Montenegro|EUR|€">Montenegro</option>
+              <option value="Morocco|MAD|MAD">Morocco</option>
+              <option value="Mozambique|MZN|MT">Mozambique</option>
+              <option value="Myanmar|MMK|K">Myanmar</option>
+              <option value="Namibia|NAD|N$">Namibia</option>
+              <option value="Nauru|AUD|A$">Nauru</option>
+              <option value="Nepal|NPR|Rs">Nepal</option>
+              <option value="Netherlands|EUR|€">Netherlands</option>
+              <option value="New Zealand|NZD|NZ$">New Zealand</option>
+              <option value="Nicaragua|NIO|C$">Nicaragua</option>
+              <option value="Niger|XOF|CFA">Niger</option>
+              <option value="Nigeria|NGN|₦">Nigeria</option>
+              <option value="North Korea|KPW|₩">North Korea</option>
+              <option value="North Macedonia|MKD|ден">North Macedonia</option>
+              <option value="Norway|NOK|kr">Norway</option>
+              <option value="Oman|OMR|OMR">Oman</option>
+              <option value="Pakistan|PKR|Rs">Pakistan</option>
+              <option value="Palau|USD|$">Palau</option>
+              <option value="Panama|PAB|B/.">Panama</option>
+              <option value="Papua New Guinea|PGK|K">Papua New Guinea</option>
+              <option value="Paraguay|PYG|₲">Paraguay</option>
+              <option value="Peru|PEN|S/.">Peru</option>
+              <option value="Philippines|PHP|₱">Philippines</option>
+              <option value="Poland|PLN|zł">Poland</option>
+              <option value="Portugal|EUR|€">Portugal</option>
+              <option value="Qatar|QAR|﷼">Qatar</option>
+              <option value="Romania|RON|lei">Romania</option>
+              <option value="Russia|RUB|₽">Russia</option>
+              <option value="Rwanda|RWF|Fr">Rwanda</option>
+              <option value="Saint Kitts and Nevis|XCD|EC$">Saint Kitts and Nevis</option>
+              <option value="Saint Lucia|XCD|EC$">Saint Lucia</option>
+              <option value="Saint Vincent and the Grenadines|XCD|EC$">Saint Vincent and the Grenadines</option>
+              <option value="Samoa|WST|T">Samoa</option>
+              <option value="San Marino|EUR|€">San Marino</option>
+              <option value="Sao Tome and Principe|STN|Db">Sao Tome and Principe</option>
+              <option value="Saudi Arabia|SAR|﷼">Saudi Arabia</option>
+              <option value="Senegal|XOF|CFA">Senegal</option>
+              <option value="Serbia|RSD|din">Serbia</option>
+              <option value="Seychelles|SCR|Rs">Seychelles</option>
+              <option value="Sierra Leone|SLE|Le">Sierra Leone</option>
+              <option value="Singapore|SGD|S$">Singapore</option>
+              <option value="Slovakia|EUR|€">Slovakia</option>
+              <option value="Slovenia|EUR|€">Slovenia</option>
+              <option value="Solomon Islands|SBD|SI$">Solomon Islands</option>
+              <option value="Somalia|SOS|Sh">Somalia</option>
+              <option value="South Africa|ZAR|R">South Africa</option>
+              <option value="South Korea|KRW|₩">South Korea</option>
+              <option value="South Sudan|SSP|£">South Sudan</option>
+              <option value="Spain|EUR|€">Spain</option>
+              <option value="Sri Lanka|LKR|Rs">Sri Lanka</option>
+              <option value="Sudan|SDG|£">Sudan</option>
+              <option value="Suriname|SRD|$">Suriname</option>
+              <option value="Sweden|SEK|kr">Sweden</option>
+              <option value="Switzerland|CHF|Fr">Switzerland</option>
+              <option value="Syria|SYP|£">Syria</option>
+              <option value="Taiwan|TWD|NT$">Taiwan</option>
+              <option value="Tajikistan|TJS|SM">Tajikistan</option>
+              <option value="Tanzania|TZS|Sh">Tanzania</option>
+              <option value="Thailand|THB|฿">Thailand</option>
+              <option value="Timor-Leste|USD|$">Timor-Leste</option>
+              <option value="Togo|XOF|CFA">Togo</option>
+              <option value="Tonga|TOP|T$">Tonga</option>
+              <option value="Trinidad and Tobago|TTD|TT$">Trinidad and Tobago</option>
+              <option value="Tunisia|TND|DT">Tunisia</option>
+              <option value="Turkey|TRY|₺">Turkey</option>
+              <option value="Turkmenistan|TMT|T">Turkmenistan</option>
+              <option value="Tuvalu|AUD|A$">Tuvalu</option>
+              <option value="Uganda|UGX|Sh">Uganda</option>
+              <option value="Ukraine|UAH|₴">Ukraine</option>
+              <option value="United Arab Emirates|AED|د.إ">United Arab Emirates</option>
+              <option value="United Kingdom|GBP|£">United Kingdom</option>
+              <option value="United States|USD|$">United States</option>
+              <option value="Uruguay|UYU|$U">Uruguay</option>
+              <option value="Uzbekistan|UZS|лв">Uzbekistan</option>
+              <option value="Vanuatu|VUV|Vt">Vanuatu</option>
+              <option value="Vatican City|EUR|€">Vatican City</option>
+              <option value="Venezuela|VES|Bs.S">Venezuela</option>
+              <option value="Vietnam|VND|₫">Vietnam</option>
+              <option value="Yemen|YER|﷼">Yemen</option>
+              <option value="Zambia|ZMW|ZK">Zambia</option>
+              <option value="Zimbabwe|ZWL|$">Zimbabwe</option>
+            </select>
+            <div class="currency-badge" id="currencyBadge">— —</div>
           </div>
-          <p style="font-size:0.75rem;color:var(--text-mid);margin-top:0.4rem;line-height:1.5;">
-            Give what your heart leads you to — $1 or $1,000, every contribution is a blessing and will be used with care.
-          </p>
+        </div>
+
+        <!-- Smart preset amounts -->
+        <div class="form-group">
+          <label>Donation Amount <span style="font-size:0.75rem;color:var(--text-mid);font-weight:400;" id="currencyHint">— select your country first</span></label>
+          <div class="amount-preset-grid" id="amountGrid">
+            <button type="button" class="amount-btn" onclick="selectAmount(this)" data-val="5">—</button>
+            <button type="button" class="amount-btn" onclick="selectAmount(this)" data-val="10">—</button>
+            <button type="button" class="amount-btn" onclick="selectAmount(this)" data-val="25">—</button>
+            <button type="button" class="amount-btn" onclick="selectAmount(this)" data-val="50">—</button>
+            <button type="button" class="amount-btn" onclick="selectAmount(this)" data-val="100">—</button>
+            <button type="button" class="amount-btn" onclick="selectAmount(this)" data-val="250">—</button>
+          </div>
+          <p class="amount-note">Every gift — large or small — goes 100% to a family in Rwanda 🇷🇼</p>
         </div>
 
         <div class="donation-divider"></div>
@@ -2068,10 +2299,7 @@
           <label for="d_email">Email Address</label>
           <input type="email" id="d_email" name="email" placeholder="you@email.com" required>
         </div>
-        <div class="form-group">
-          <label for="d_country">Country</label>
-          <input type="text" id="d_country" name="country" placeholder="Rwanda, USA, UK...">
-        </div>
+
         <div class="form-group">
           <label for="d_message">Message (optional)</label>
           <textarea id="d_message" name="message" placeholder="A word of encouragement, or how you'd like your gift used..." style="min-height:80px;"></textarea>
@@ -2353,6 +2581,111 @@
   });
 
   // ── Donation form ──
+
+  // Currency data: country value → { code, symbol, presets (amounts), labels }
+  const CURRENCY_PRESETS = {
+    // key = currency code
+    'USD': { symbol:'$',  presets:[5,10,25,50,100,250],  labels:['$5','$10','$25','$50','$100','$250'] },
+    'EUR': { symbol:'€',  presets:[5,10,25,50,100,250],  labels:['€5','€10','€25','€50','€100','€250'] },
+    'GBP': { symbol:'£',  presets:[5,10,20,50,100,200],  labels:['£5','£10','£20','£50','£100','£200'] },
+    'RWF': { symbol:'Fr', presets:[5000,10000,25000,50000,100000,250000], labels:['5K Fr','10K Fr','25K Fr','50K Fr','100K Fr','250K Fr'] },
+    'KES': { symbol:'KSh',presets:[500,1000,2500,5000,10000,25000], labels:['500','1K','2.5K','5K','10K','25K'] },
+    'UGX': { symbol:'Sh', presets:[20000,50000,100000,250000,500000,1000000], labels:['20K','50K','100K','250K','500K','1M'] },
+    'TZS': { symbol:'Sh', presets:[10000,25000,50000,100000,250000,500000], labels:['10K','25K','50K','100K','250K','500K'] },
+    'NGN': { symbol:'₦',  presets:[2000,5000,10000,25000,50000,100000], labels:['₦2K','₦5K','₦10K','₦25K','₦50K','₦100K'] },
+    'GHS': { symbol:'₵',  presets:[50,100,250,500,1000,2500], labels:['₵50','₵100','₵250','₵500','₵1K','₵2.5K'] },
+    'ZAR': { symbol:'R',  presets:[50,100,250,500,1000,2500], labels:['R50','R100','R250','R500','R1K','R2.5K'] },
+    'INR': { symbol:'₹',  presets:[200,500,1000,2000,5000,10000], labels:['₹200','₹500','₹1K','₹2K','₹5K','₹10K'] },
+    'CAD': { symbol:'CA$',presets:[5,10,25,50,100,250],  labels:['CA$5','CA$10','CA$25','CA$50','CA$100','CA$250'] },
+    'AUD': { symbol:'A$', presets:[5,10,25,50,100,250],  labels:['A$5','A$10','A$25','A$50','A$100','A$250'] },
+    'CHF': { symbol:'Fr', presets:[5,10,25,50,100,250],  labels:['Fr5','Fr10','Fr25','Fr50','Fr100','Fr250'] },
+    'JPY': { symbol:'¥',  presets:[500,1000,2500,5000,10000,25000], labels:['¥500','¥1K','¥2.5K','¥5K','¥10K','¥25K'] },
+    'CNY': { symbol:'¥',  presets:[30,60,150,300,600,1500], labels:['¥30','¥60','¥150','¥300','¥600','¥1.5K'] },
+    'BRL': { symbol:'R$', presets:[25,50,125,250,500,1250], labels:['R$25','R$50','R$125','R$250','R$500','R$1.25K'] },
+    'MXN': { symbol:'$',  presets:[100,200,500,1000,2000,5000], labels:['$100','$200','$500','$1K','$2K','$5K'] },
+    'AED': { symbol:'د.إ',presets:[20,40,100,200,400,1000], labels:['20','40','100','200','400','1000'] },
+    'SAR': { symbol:'﷼',  presets:[20,40,100,200,400,1000], labels:['20','40','100','200','400','1000'] },
+    'QAR': { symbol:'﷼',  presets:[20,40,100,200,400,1000], labels:['20','40','100','200','400','1000'] },
+    'SEK': { symbol:'kr', presets:[50,100,250,500,1000,2500], labels:['50kr','100kr','250kr','500kr','1Kkr','2.5Kkr'] },
+    'NOK': { symbol:'kr', presets:[50,100,250,500,1000,2500], labels:['50kr','100kr','250kr','500kr','1Kkr','2.5Kkr'] },
+    'DKK': { symbol:'kr', presets:[35,70,175,350,700,1750], labels:['35kr','70kr','175kr','350kr','700kr','1.75Kkr'] },
+    'PLN': { symbol:'zł', presets:[20,40,100,200,400,1000], labels:['20zł','40zł','100zł','200zł','400zł','1Kzł'] },
+    'CZK': { symbol:'Kč', presets:[120,250,600,1200,2500,6000], labels:['120','250','600','1.2K','2.5K','6K'] },
+    'HUF': { symbol:'Ft', presets:[2000,5000,10000,20000,50000,100000], labels:['2K','5K','10K','20K','50K','100K'] },
+    'PKR': { symbol:'Rs', presets:[1000,2000,5000,10000,25000,50000], labels:['1K','2K','5K','10K','25K','50K'] },
+    'BDT': { symbol:'৳',  presets:[500,1000,2500,5000,10000,25000], labels:['৳500','৳1K','৳2.5K','৳5K','৳10K','৳25K'] },
+    'IDR': { symbol:'Rp', presets:[75000,150000,375000,750000,1500000,3750000], labels:['75K','150K','375K','750K','1.5M','3.75M'] },
+    'PHP': { symbol:'₱',  presets:[250,500,1250,2500,5000,12500], labels:['₱250','₱500','₱1.25K','₱2.5K','₱5K','₱12.5K'] },
+    'VND': { symbol:'₫',  presets:[120000,250000,600000,1200000,2500000,6000000], labels:['120K','250K','600K','1.2M','2.5M','6M'] },
+    'THB': { symbol:'฿',  presets:[150,300,750,1500,3000,7500], labels:['฿150','฿300','฿750','฿1.5K','฿3K','฿7.5K'] },
+    'MYR': { symbol:'RM', presets:[20,40,100,200,400,1000], labels:['RM20','RM40','RM100','RM200','RM400','RM1K'] },
+    'SGD': { symbol:'S$', presets:[7,14,35,70,140,350], labels:['S$7','S$14','S$35','S$70','S$140','S$350'] },
+    'KRW': { symbol:'₩',  presets:[7000,14000,35000,70000,140000,350000], labels:['7K','14K','35K','70K','140K','350K'] },
+    'TRY': { symbol:'₺',  presets:[100,200,500,1000,2000,5000], labels:['₺100','₺200','₺500','₺1K','₺2K','₺5K'] },
+    'EGP': { symbol:'£',  presets:[150,300,750,1500,3000,7500], labels:['£150','£300','£750','£1.5K','£3K','£7.5K'] },
+    'MAD': { symbol:'MAD',presets:[50,100,250,500,1000,2500], labels:['50','100','250','500','1K','2.5K'] },
+    'ETB': { symbol:'Br', presets:[250,500,1250,2500,5000,12500], labels:['250','500','1.25K','2.5K','5K','12.5K'] },
+    'DZD': { symbol:'د.ج',presets:[700,1400,3500,7000,14000,35000], labels:['700','1.4K','3.5K','7K','14K','35K'] },
+    'XOF': { symbol:'CFA',presets:[3000,6000,15000,30000,60000,150000], labels:['3K','6K','15K','30K','60K','150K'] },
+    'XAF': { symbol:'CFA',presets:[3000,6000,15000,30000,60000,150000], labels:['3K','6K','15K','30K','60K','150K'] },
+  };
+
+  // Descriptions for preset amounts (approx impact)
+  const IMPACT_LABELS = [
+    'First step',
+    'Small gift',
+    'Health cover',
+    'Big impact',
+    'Life changer',
+    'Full support'
+  ];
+
+  let selectedAmount = '';
+  let selectedCurrency = '';
+  let selectedCountryName = '';
+
+  function onCountryChange(select) {
+    const val = select.value; // e.g. "Rwanda|RWF|Fr"
+    if (!val) return;
+    const parts = val.split('|');
+    selectedCountryName = parts[0];
+    const code = parts[1];
+    const sym  = parts[2];
+    selectedCurrency = code;
+
+    // Update badge
+    const badge = document.getElementById('currencyBadge');
+    badge.textContent = code + ' ' + sym;
+
+    // Update hint
+    document.getElementById('currencyHint').textContent = '— ' + code;
+
+    // Update hidden country field value to just the country name
+    // (the select name="country" will submit the full value, we'll fix that)
+
+    // Render preset buttons
+    const preset = CURRENCY_PRESETS[code] || CURRENCY_PRESETS['USD'];
+    const grid = document.getElementById('amountGrid');
+    const btns = grid.querySelectorAll('.amount-btn');
+    btns.forEach((btn, i) => {
+      const lbl = preset.labels[i];
+      btn.setAttribute('data-val', preset.presets[i]);
+      btn.setAttribute('data-display', lbl + ' ' + code);
+      btn.innerHTML = '<strong>' + lbl + '</strong><span class="btn-sub">' + IMPACT_LABELS[i] + '</span>';
+      btn.classList.remove('selected');
+    });
+    selectedAmount = '';
+    document.getElementById('donation_amount_hidden').value = '';
+  }
+
+  function selectAmount(btn) {
+    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    const display = btn.getAttribute('data-display') || btn.getAttribute('data-val');
+    selectedAmount = display;
+    document.getElementById('donation_amount_hidden').value = display;
+  }
+
   function setFrequency(btn, value) {
     document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -2361,6 +2694,14 @@
 
   async function handleDonation(e) {
     e.preventDefault();
+    if (!selectedAmount) {
+      alert('Please select a donation amount.');
+      return;
+    }
+    if (!selectedCountryName) {
+      alert('Please select your country.');
+      return;
+    }
     const form = document.getElementById('donationForm');
     const success = document.getElementById('donationSuccess');
     const btn = form.querySelector('.btn-donate');
@@ -2372,6 +2713,10 @@
 
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
+    // Clean up country to just the name
+    data.country = selectedCountryName;
+    data.currency = selectedCurrency;
+    data.donation_amount = selectedAmount;
 
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
@@ -2389,7 +2734,7 @@
         throw new Error(result.message);
       }
     } catch (err) {
-      btn.textContent = 'Send Donation Intent →';
+      btn.textContent = 'Submit My Donation →';
       btn.disabled = false;
       btn.style.opacity = '1';
       alert('Could not send. Please email us at kimunturisingorg@gmail.com');

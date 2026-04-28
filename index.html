@@ -2137,14 +2137,27 @@
           </select>
         </div>
 
-        <!-- Donation Amount — USD, any amount welcome -->
+        <!-- Donation Amount — USD or RWF, any amount welcome -->
         <div class="form-group">
-          <label>Donation Amount <span style="font-size:0.75rem;color:var(--text-mid);font-weight:400;">— USD $ &nbsp;·&nbsp; every cent counts</span></label>
+          <label>Donation Amount <span style="font-size:0.75rem;color:var(--text-mid);font-weight:400;" id="currencyLabel">— USD $ &nbsp;·&nbsp; every cent counts</span></label>
+
+          <!-- Currency toggle -->
+          <div style="display:flex;gap:0;border:2px solid var(--sky-dark);border-radius:10px;overflow:hidden;margin-bottom:0.6rem;">
+            <button type="button" id="btnUSD" onclick="setCurrency('USD')"
+              style="flex:1;padding:0.55rem 0;border:none;background:var(--navy);color:#fff;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s;">
+              🇺🇸 USD — Dollar
+            </button>
+            <button type="button" id="btnRWF" onclick="setCurrency('RWF')"
+              style="flex:1;padding:0.55rem 0;border:none;background:var(--white);color:var(--navy);font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;border-left:2px solid var(--sky-dark);transition:all 0.2s;">
+              🇷🇼 RWF — Franc
+            </button>
+          </div>
+
           <div class="custom-amount-wrap" style="display:flex;align-items:center;border:2px solid var(--sky-dark);border-radius:10px;overflow:hidden;background:var(--white);">
-            <span style="padding:0 0.85rem;font-size:1rem;color:var(--text-mid);border-right:1px solid var(--sky-dark);line-height:46px;user-select:none;">$</span>
+            <span id="currencySymbol" style="padding:0 0.85rem;font-size:1rem;color:var(--text-mid);border-right:1px solid var(--sky-dark);line-height:46px;user-select:none;">$</span>
             <input type="number" id="customAmountInput" min="0.01" step="any" placeholder="Enter any amount — no minimum…" oninput="onCustomAmount(this)"
               style="flex:1;border:none;padding:0.65rem 0.85rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;color:var(--text-dark);outline:none;background:transparent;">
-            <span style="padding:0 0.85rem;font-size:0.8rem;color:var(--text-mid);font-weight:600;letter-spacing:0.04em;">USD</span>
+            <span id="currencyCode" style="padding:0 0.85rem;font-size:0.8rem;color:var(--text-mid);font-weight:600;letter-spacing:0.04em;">USD</span>
           </div>
           <p class="amount-note">Every donation — large or small — goes 100% to a family in Rwanda 🇷🇼</p>
         </div>
@@ -2514,15 +2527,43 @@
   }
 
   function onCustomAmount(input) {
-    // Deselect presets when typing a custom amount
-    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
     const val = parseFloat(input.value);
     if (val > 0) {
-      selectedAmount = '$' + (Number.isInteger(val) ? val : val.toFixed(2));
+      const sym = activeCurrency === 'USD' ? '$' : 'Fr';
+      const decimals = activeCurrency === 'RWF' ? 0 : 2;
+      const formatted = Number.isInteger(val) ? val : val.toFixed(decimals);
+      selectedAmount = sym + formatted + ' ' + activeCurrency;
     } else {
       selectedAmount = '';
     }
     document.getElementById('donation_amount_hidden').value = selectedAmount;
+  }
+
+  // ── Currency toggle: USD / RWF ──
+  let activeCurrency = 'USD';
+
+  function setCurrency(code) {
+    activeCurrency = code;
+    const isUSD = code === 'USD';
+    // Toggle button styles
+    document.getElementById('btnUSD').style.background = isUSD ? 'var(--navy)' : 'var(--white)';
+    document.getElementById('btnUSD').style.color     = isUSD ? '#fff' : 'var(--navy)';
+    document.getElementById('btnRWF').style.background = isUSD ? 'var(--white)' : 'var(--navy)';
+    document.getElementById('btnRWF').style.color     = isUSD ? 'var(--navy)' : '#fff';
+    // Update symbol & code display
+    document.getElementById('currencySymbol').textContent = isUSD ? '$' : 'Fr';
+    document.getElementById('currencyCode').textContent   = isUSD ? 'USD' : 'RWF';
+    document.getElementById('currencyLabel').innerHTML    = isUSD
+      ? '— USD $ &nbsp;·&nbsp; every cent counts'
+      : '— RWF Fr &nbsp;·&nbsp; every franc counts';
+    // Update placeholder
+    document.getElementById('customAmountInput').placeholder = isUSD
+      ? 'Enter any amount — no minimum…'
+      : 'Injiza amafaranga — nta gipimo cy'ibanze…';
+    // Clear amount
+    document.getElementById('customAmountInput').value = '';
+    selectedAmount = '';
+    document.getElementById('donation_amount_hidden').value = '';
   }
 
   function toggleBankDetails() {

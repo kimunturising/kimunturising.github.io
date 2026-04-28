@@ -2140,17 +2140,9 @@
         <!-- Donation Amount — USD, any amount welcome -->
         <div class="form-group">
           <label>Donation Amount <span style="font-size:0.75rem;color:var(--text-mid);font-weight:400;">— USD $ &nbsp;·&nbsp; every cent counts</span></label>
-          <div class="amount-preset-grid" id="amountGrid">
-            <button type="button" class="amount-btn selected" onclick="selectAmount(this)" data-val="5"><strong>$5</strong><span class="btn-sub">First step</span></button>
-            <button type="button" class="amount-btn" onclick="selectAmount(this)" data-val="10"><strong>$10</strong><span class="btn-sub">Small gift</span></button>
-            <button type="button" class="amount-btn" onclick="selectAmount(this)" data-val="25"><strong>$25</strong><span class="btn-sub">Health cover</span></button>
-            <button type="button" class="amount-btn" onclick="selectAmount(this)" data-val="50"><strong>$50</strong><span class="btn-sub">Big impact</span></button>
-            <button type="button" class="amount-btn" onclick="selectAmount(this)" data-val="100"><strong>$100</strong><span class="btn-sub">Life changer</span></button>
-            <button type="button" class="amount-btn" onclick="selectAmount(this)" data-val="250"><strong>$250</strong><span class="btn-sub">Full support</span></button>
-          </div>
-          <div class="custom-amount-wrap" style="display:flex;align-items:center;border:2px solid var(--sky-dark);border-radius:10px;overflow:hidden;margin-top:0.75rem;background:var(--white);">
+          <div class="custom-amount-wrap" style="display:flex;align-items:center;border:2px solid var(--sky-dark);border-radius:10px;overflow:hidden;background:var(--white);">
             <span style="padding:0 0.85rem;font-size:1rem;color:var(--text-mid);border-right:1px solid var(--sky-dark);line-height:46px;user-select:none;">$</span>
-            <input type="number" id="customAmountInput" min="0.01" step="any" placeholder="Or type any amount — no minimum…" oninput="onCustomAmount(this)"
+            <input type="number" id="customAmountInput" min="0.01" step="any" placeholder="Enter any amount — no minimum…" oninput="onCustomAmount(this)"
               style="flex:1;border:none;padding:0.65rem 0.85rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;color:var(--text-dark);outline:none;background:transparent;">
             <span style="padding:0 0.85rem;font-size:0.8rem;color:var(--text-mid);font-weight:600;letter-spacing:0.04em;">USD</span>
           </div>
@@ -2486,7 +2478,7 @@
 
   // Currency data: country value → { code, symbol, presets (amounts), labels }
   // ── Donation form — USD only, any amount ──
-  let selectedAmount = '$5'; // default pre-selected
+  let selectedAmount = '';
   document.getElementById('donation_amount_hidden').value = selectedAmount;
 
   function selectAmount(btn) {

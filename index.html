@@ -2059,9 +2059,87 @@
           <button type="button" class="freq-btn" onclick="setFrequency(this, 'Monthly')">Monthly</button>
         </div>
 
-        <!-- Donation Amount — USD only -->
+        <!-- Country selector — for origin tracking only, all donations in USD -->
         <div class="form-group">
-          <label>Donation Amount <span style="font-size:0.75rem;color:var(--text-mid);font-weight:400;">— USD $</span></label>
+          <label for="d_country_select">Your Country <span style="font-size:0.75rem;color:var(--text-mid);font-weight:400;">(helps us know where our supporters are)</span></label>
+          <select id="d_country_select" name="country" required
+            style="width:100%;padding:0.7rem 1rem;border:2px solid var(--sky-dark);border-radius:10px;
+                   font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--text-dark);
+                   background:var(--white);outline:none;appearance:auto;cursor:pointer;">
+            <option value="" disabled selected>— Select your country —</option>
+            <option>Afghanistan</option><option>Albania</option><option>Algeria</option>
+            <option>Andorra</option><option>Angola</option><option>Antigua and Barbuda</option>
+            <option>Argentina</option><option>Armenia</option><option>Australia</option>
+            <option>Austria</option><option>Azerbaijan</option><option>Bahamas</option>
+            <option>Bahrain</option><option>Bangladesh</option><option>Barbados</option>
+            <option>Belarus</option><option>Belgium</option><option>Belize</option>
+            <option>Benin</option><option>Bhutan</option><option>Bolivia</option>
+            <option>Bosnia and Herzegovina</option><option>Botswana</option><option>Brazil</option>
+            <option>Brunei</option><option>Bulgaria</option><option>Burkina Faso</option>
+            <option>Burundi</option><option>Cabo Verde</option><option>Cambodia</option>
+            <option>Cameroon</option><option>Canada</option><option>Central African Republic</option>
+            <option>Chad</option><option>Chile</option><option>China</option>
+            <option>Colombia</option><option>Comoros</option><option>Congo (Brazzaville)</option>
+            <option>Congo (DRC)</option><option>Costa Rica</option><option>Croatia</option>
+            <option>Cuba</option><option>Cyprus</option><option>Czech Republic</option>
+            <option>Denmark</option><option>Djibouti</option><option>Dominica</option>
+            <option>Dominican Republic</option><option>Ecuador</option><option>Egypt</option>
+            <option>El Salvador</option><option>Equatorial Guinea</option><option>Eritrea</option>
+            <option>Estonia</option><option>Eswatini</option><option>Ethiopia</option>
+            <option>Fiji</option><option>Finland</option><option>France</option>
+            <option>Gabon</option><option>Gambia</option><option>Georgia</option>
+            <option>Germany</option><option>Ghana</option><option>Greece</option>
+            <option>Grenada</option><option>Guatemala</option><option>Guinea</option>
+            <option>Guinea-Bissau</option><option>Guyana</option><option>Haiti</option>
+            <option>Honduras</option><option>Hungary</option><option>Iceland</option>
+            <option>India</option><option>Indonesia</option><option>Iran</option>
+            <option>Iraq</option><option>Ireland</option><option>Israel</option>
+            <option>Italy</option><option>Ivory Coast</option><option>Jamaica</option>
+            <option>Japan</option><option>Jordan</option><option>Kazakhstan</option>
+            <option>Kenya</option><option>Kiribati</option><option>Kuwait</option>
+            <option>Kyrgyzstan</option><option>Laos</option><option>Latvia</option>
+            <option>Lebanon</option><option>Lesotho</option><option>Liberia</option>
+            <option>Libya</option><option>Liechtenstein</option><option>Lithuania</option>
+            <option>Luxembourg</option><option>Madagascar</option><option>Malawi</option>
+            <option>Malaysia</option><option>Maldives</option><option>Mali</option>
+            <option>Malta</option><option>Marshall Islands</option><option>Mauritania</option>
+            <option>Mauritius</option><option>Mexico</option><option>Micronesia</option>
+            <option>Moldova</option><option>Monaco</option><option>Mongolia</option>
+            <option>Montenegro</option><option>Morocco</option><option>Mozambique</option>
+            <option>Myanmar</option><option>Namibia</option><option>Nauru</option>
+            <option>Nepal</option><option>Netherlands</option><option>New Zealand</option>
+            <option>Nicaragua</option><option>Niger</option><option>Nigeria</option>
+            <option>North Korea</option><option>North Macedonia</option><option>Norway</option>
+            <option>Oman</option><option>Pakistan</option><option>Palau</option>
+            <option>Panama</option><option>Papua New Guinea</option><option>Paraguay</option>
+            <option>Peru</option><option>Philippines</option><option>Poland</option>
+            <option>Portugal</option><option>Qatar</option><option>Romania</option>
+            <option>Russia</option><option selected>Rwanda</option>
+            <option>Saint Kitts and Nevis</option><option>Saint Lucia</option>
+            <option>Saint Vincent and the Grenadines</option><option>Samoa</option>
+            <option>San Marino</option><option>Sao Tome and Principe</option>
+            <option>Saudi Arabia</option><option>Senegal</option><option>Serbia</option>
+            <option>Seychelles</option><option>Sierra Leone</option><option>Singapore</option>
+            <option>Slovakia</option><option>Slovenia</option><option>Solomon Islands</option>
+            <option>Somalia</option><option>South Africa</option><option>South Korea</option>
+            <option>South Sudan</option><option>Spain</option><option>Sri Lanka</option>
+            <option>Sudan</option><option>Suriname</option><option>Sweden</option>
+            <option>Switzerland</option><option>Syria</option><option>Taiwan</option>
+            <option>Tajikistan</option><option>Tanzania</option><option>Thailand</option>
+            <option>Timor-Leste</option><option>Togo</option><option>Tonga</option>
+            <option>Trinidad and Tobago</option><option>Tunisia</option><option>Turkey</option>
+            <option>Turkmenistan</option><option>Tuvalu</option><option>Uganda</option>
+            <option>Ukraine</option><option>United Arab Emirates</option>
+            <option>United Kingdom</option><option>United States</option>
+            <option>Uruguay</option><option>Uzbekistan</option><option>Vanuatu</option>
+            <option>Vatican City</option><option>Venezuela</option><option>Vietnam</option>
+            <option>Yemen</option><option>Zambia</option><option>Zimbabwe</option>
+          </select>
+        </div>
+
+        <!-- Donation Amount — USD, any amount welcome -->
+        <div class="form-group">
+          <label>Donation Amount <span style="font-size:0.75rem;color:var(--text-mid);font-weight:400;">— USD $ &nbsp;·&nbsp; every cent counts</span></label>
           <div class="amount-preset-grid" id="amountGrid">
             <button type="button" class="amount-btn selected" onclick="selectAmount(this)" data-val="5"><strong>$5</strong><span class="btn-sub">First step</span></button>
             <button type="button" class="amount-btn" onclick="selectAmount(this)" data-val="10"><strong>$10</strong><span class="btn-sub">Small gift</span></button>
@@ -2072,11 +2150,38 @@
           </div>
           <div class="custom-amount-wrap" style="display:flex;align-items:center;border:2px solid var(--sky-dark);border-radius:10px;overflow:hidden;margin-top:0.75rem;background:var(--white);">
             <span style="padding:0 0.85rem;font-size:1rem;color:var(--text-mid);border-right:1px solid var(--sky-dark);line-height:46px;user-select:none;">$</span>
-            <input type="number" id="customAmountInput" min="1" step="any" placeholder="Or type any amount…" oninput="onCustomAmount(this)"
+            <input type="number" id="customAmountInput" min="0.01" step="any" placeholder="Or type any amount — no minimum…" oninput="onCustomAmount(this)"
               style="flex:1;border:none;padding:0.65rem 0.85rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;color:var(--text-dark);outline:none;background:transparent;">
             <span style="padding:0 0.85rem;font-size:0.8rem;color:var(--text-mid);font-weight:600;letter-spacing:0.04em;">USD</span>
           </div>
           <p class="amount-note">Every gift — large or small — goes 100% to a family in Rwanda 🇷🇼</p>
+        </div>
+
+        <!-- Bank Transfer Details -->
+        <div style="background:linear-gradient(135deg,rgba(15,35,71,0.06) 0%,rgba(232,160,32,0.08) 100%);border:1.5px solid var(--sky-dark);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.25rem;">
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.85rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            <span style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--navy);">Bank Transfer Details</span>
+          </div>
+          <div style="display:grid;gap:0.45rem;font-size:0.88rem;color:var(--text-dark);line-height:1.6;">
+            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.25rem;">
+              <span style="color:var(--text-mid);font-size:0.8rem;">Bank</span>
+              <strong>Equity Bank Rwanda</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.25rem;">
+              <span style="color:var(--text-mid);font-size:0.8rem;">Account Name</span>
+              <strong>Nkurunziza Boniface</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.25rem;">
+              <span style="color:var(--text-mid);font-size:0.8rem;">Account Number</span>
+              <strong style="font-size:1rem;letter-spacing:0.06em;color:var(--navy);">4004100709025</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.25rem;">
+              <span style="color:var(--text-mid);font-size:0.8rem;">Role</span>
+              <strong>Executive Director, Kimuntu Rising</strong>
+            </div>
+          </div>
+          <p style="margin:0.85rem 0 0;font-size:0.78rem;color:var(--text-mid);line-height:1.6;">After transferring, please fill in the form below so we can acknowledge your gift and keep you updated on the family your donation supports.</p>
         </div>
 
         <div class="donation-divider"></div>

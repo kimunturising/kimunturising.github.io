@@ -2146,34 +2146,42 @@
               style="flex:1;border:none;padding:0.65rem 0.85rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;color:var(--text-dark);outline:none;background:transparent;">
             <span style="padding:0 0.85rem;font-size:0.8rem;color:var(--text-mid);font-weight:600;letter-spacing:0.04em;">USD</span>
           </div>
-          <p class="amount-note">Every gift — large or small — goes 100% to a family in Rwanda 🇷🇼</p>
+          <p class="amount-note">Every donation — large or small — goes 100% to a family in Rwanda 🇷🇼</p>
         </div>
 
-        <!-- Bank Transfer Details -->
-        <div style="background:linear-gradient(135deg,rgba(15,35,71,0.06) 0%,rgba(232,160,32,0.08) 100%);border:1.5px solid var(--sky-dark);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.25rem;">
-          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.85rem;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-            <span style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--navy);">Bank Transfer Details</span>
+        <!-- Bank Transfer Details — collapsible accordion -->
+        <div style="border:1.5px solid var(--sky-dark);border-radius:14px;overflow:hidden;margin-bottom:1.25rem;">
+          <button type="button" onclick="toggleBankDetails(this)"
+            style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;
+                   padding:0.95rem 1.2rem;background:linear-gradient(135deg,rgba(15,35,71,0.05) 0%,rgba(232,160,32,0.07) 100%);
+                   border:none;cursor:pointer;font-family:'DM Sans',sans-serif;">
+            <div style="display:flex;align-items:center;gap:0.55rem;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+              <span style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--navy);">View Bank Transfer Details</span>
+            </div>
+            <svg id="bankChevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.3s;flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div id="bankDetailsBody" style="display:none;padding:1.1rem 1.4rem 1.2rem;background:var(--white);border-top:1px solid var(--sky-dark);">
+            <div style="display:grid;gap:0.55rem;font-size:0.88rem;color:var(--text-dark);line-height:1.6;">
+              <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.25rem;">
+                <span style="color:var(--text-mid);font-size:0.8rem;">Bank</span>
+                <strong>Equity Bank Rwanda</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.25rem;">
+                <span style="color:var(--text-mid);font-size:0.8rem;">Account Name</span>
+                <strong>Nkurunziza Boniface</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.25rem;">
+                <span style="color:var(--text-mid);font-size:0.8rem;">Account Number</span>
+                <strong style="font-size:1rem;letter-spacing:0.07em;color:var(--navy);">4004100709025</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.25rem;">
+                <span style="color:var(--text-mid);font-size:0.8rem;">Role</span>
+                <strong>Executive Director, Kimuntu Rising</strong>
+              </div>
+            </div>
+            <p style="margin:0.85rem 0 0;font-size:0.78rem;color:var(--text-mid);line-height:1.6;">After transferring, please fill in the form below so we can acknowledge your donation and keep you updated on the family your contribution supports.</p>
           </div>
-          <div style="display:grid;gap:0.45rem;font-size:0.88rem;color:var(--text-dark);line-height:1.6;">
-            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.25rem;">
-              <span style="color:var(--text-mid);font-size:0.8rem;">Bank</span>
-              <strong>Equity Bank Rwanda</strong>
-            </div>
-            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.25rem;">
-              <span style="color:var(--text-mid);font-size:0.8rem;">Account Name</span>
-              <strong>Nkurunziza Boniface</strong>
-            </div>
-            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.25rem;">
-              <span style="color:var(--text-mid);font-size:0.8rem;">Account Number</span>
-              <strong style="font-size:1rem;letter-spacing:0.06em;color:var(--navy);">4004100709025</strong>
-            </div>
-            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.25rem;">
-              <span style="color:var(--text-mid);font-size:0.8rem;">Role</span>
-              <strong>Executive Director, Kimuntu Rising</strong>
-            </div>
-          </div>
-          <p style="margin:0.85rem 0 0;font-size:0.78rem;color:var(--text-mid);line-height:1.6;">After transferring, please fill in the form below so we can acknowledge your gift and keep you updated on the family your donation supports.</p>
         </div>
 
         <div class="donation-divider"></div>
@@ -2501,6 +2509,14 @@
       selectedAmount = '';
     }
     document.getElementById('donation_amount_hidden').value = selectedAmount;
+  }
+
+  function toggleBankDetails() {
+    const body = document.getElementById('bankDetailsBody');
+    const chevron = document.getElementById('bankChevron');
+    const open = body.style.display === 'block';
+    body.style.display = open ? 'none' : 'block';
+    chevron.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
   }
 
   function setFrequency(btn, value) {
